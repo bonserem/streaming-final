@@ -29,7 +29,7 @@ kafka-topics --list --zookeeper zookeeper-1:2181
 
 # updating
 
-'''
+
 kafka-configs --entity-name clean-latest --entity-type topics --zookeeper zookeeper-1:2181 --alter --add-config delete.retention.ms=3600000
-'''
+
 
