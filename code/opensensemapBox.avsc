@@ -1,0 +1,109 @@
+{
+	"namespace": "com.trivadis.opensensemap",
+	"name": "Box",
+	"type": "record",
+	"fields": [
+		{
+			"name": "_id",
+			"type": "string"
+		},
+		{
+			"name": "createdAt",
+			"type": "long",
+			"logicalType": "timestamp-millis"
+		},
+		{
+			"name": "exposure",
+			"type": "string"
+		},
+		{
+			"name": "grouptag",
+			"type": "string"
+		},
+		{
+			"name": "image",
+			"type": "string"
+		},
+		{
+			"name": "currentLocation",
+			"type": {
+				"type": "record",
+				"name": "coordinate",
+				"fields": [
+					{
+						"name": "coordinates",
+						"type": {
+							"type": "array",
+							"items": "float"
+						}
+					},
+					{
+						"name": "timestamp",
+						"type": "long",
+						"logicalType": "timestamp-millis"
+					},
+					{
+						"name": "type",
+						"type": "string"
+					}
+				]
+			}
+		},
+		{
+			"name": "name",
+			"type": "string"
+		},
+		{
+			"name": "sensors",
+			"type": {
+				"type": "record",
+				"name": "sensor",
+				"fields": [
+					{
+						"name": "_id",
+						"type": "string"
+					},
+					{
+						"name": "lastMeasurement",
+						"type": {
+							"type": "record",
+							"name": "measurement",
+							"fields": [
+								{
+									"name": "value",
+									"type": "string"
+								},
+								{
+									"name": "createdAt",
+									"type": "long",
+									"logicalType": "timestamp-millis"
+								}
+							]
+						}
+					},
+					{
+						"name": "sensorType",
+						"type": "string"
+					},
+					{
+						"name": "title",
+						"type": "string"
+					},
+					{
+						"name": "unit",
+						"type": "string"
+					},
+					{
+						"name": "icon",
+						"type": "string"
+					}
+				]
+			}
+		},
+		{
+			"name": "updatedAt",
+			"type": "long",
+			"logicalType": "timestamp-millis"
+		}
+	]
+}

@@ -1,0 +1,11 @@
+{
+	"namespace": "com.trivadis.opensensemap",
+	"name": "BoxId",
+	"type": "record",
+	"fields": [
+		{
+			"name": "id",
+			"type": "string"
+		}
+	]
+}
