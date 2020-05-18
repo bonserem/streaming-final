@@ -45,4 +45,8 @@ Here an example command to update a topic
 kafka-configs --entity-name clean-latest --entity-type topics --zookeeper zookeeper-1:2181 --alter --add-config delete.retention.ms=3600000
 ```
 
-
+# Delete
+Example to delete a topic and start fresh
+```
+kafka-topics --delete --topic clean-latest --zookeeper zookeeper-1:2181
+```
