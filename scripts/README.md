@@ -47,6 +47,6 @@ kafka-configs --entity-name clean-latest --entity-type topics --zookeeper zookee
 
 # Delete
 Example to delete a topic and start fresh
-´´´
+```
 kafka-topics --delete --topic clean-latest --zookeeper zookeeper-1:2181
-´´´
+```
