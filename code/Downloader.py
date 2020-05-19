@@ -53,19 +53,6 @@ async def read_hist_from_src(box_id, sensor_id):
 @asyncio.coroutine
 async def read_from_src(box_id): return request_data(box_id, f"{BOXES_URL}{box_id}")
 
-### Write history to RawData(Kafka)
-def write_to_raw_hist(h_data):
-    # To do
-    # for s in h_data: p.Produce("raw", key=s["key"], value=s["value], ...
-
-    # debug
-    for sensor in h_data:
-        print(f"\nwrite sensor <{sensor['key']}> history data to raw hist producer...")
-        val = sensor["value"]
-        print(json.loads(val))
-        # print(json.dumps(json.loads(val.decode()), sort_keys=True, indent=4))
-
-
 ### Write to RawData(Kafka)
 def write_to_raw(data):
     # To do
