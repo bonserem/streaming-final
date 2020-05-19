@@ -13,6 +13,10 @@ Here are the command to create the topics. For now we have three topics
 
 here are the commands for creating them:
 first connect to one of the brokers
+
+# PM10 topic
+contains the latest PM10 measurement per box
+
 ```
 Docker exec -ti kafka-1 bash
 ```
