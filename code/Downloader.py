@@ -15,7 +15,19 @@ ERR_UNEXPECTED: str = "unexpected error!"
 ERR_REQ_CNN: str = "request connection error!"
 ERR_REQ_TIMEOUT: str = "request timeout error!"
 LOG_FORMAT: str = "%(asctime)s %(levelname)s: %(funcName)s -> %(message)s"
-BOXES_CONFIG = ["5b8449037c519100190fc728", "5d76badc953683001aa283ef"]
+BOXES_CONFIG = [
+    {
+        "name": "PM Freiburg City Schlossbergring",
+        "_id": "5b8449037c519100190fc728",
+        "coordinates": [7.854577, 47.993157],
+        "sensors": [{"_id": "5b8449037c519100190fc72c", "title": "PM10", "unit": "\u00b5g/m\u00b3"}]
+    },
+    {
+        "name": "Leonhardsgraben",
+        "_id": "5d76badc953683001aa283ef",
+        "coordinates": [7.854577, 47.993157],
+        "sensors": [{"_id": "5d76badc953683001aa283f5", "title": "PM10", "unit": "\u00b5g/m\u00b3"}]
+    }]
 
 # initialize logging
 logging.basicConfig(filename=f"Downloader.log", format=LOG_FORMAT, filemode="w")
@@ -55,15 +67,16 @@ def write_to_raw_hist(h_data):
 
 
 ### Write to RawData(Kafka)
-def write_to_raw(b_data):
+def write_to_raw(data):
     # To do
-    # for b in b_data: p.Produce("raw", key=b_data["key"], value=b_data["value], ...
+    # for b in data: p.Produce("raw", key=data["key"], value=data["value], ...
 
     # debug
-    print("\nwrite sense box data to raw box producer...")
-    for box in b_data:
-        val = box["value"]
-        print(json.loads(val))
+    for sensor in data:
+        print(f"\nwrite sensor stream <{sensor['key']}> to raw producer...")
+        val = sensor["value"]
+        print(val.decode())
+        # print(json.dumps(json.loads(val.decode()), sort_keys=True, indent=4))
 
 def get_sensors_id(b_val): return [s["_id"] for s in json.loads(b_val)["sensors"]]
 
@@ -71,25 +84,11 @@ if __name__ == "__main__":
     print("Downloader is running, close with Ctrl+C")
     try:
         loop = asyncio.get_event_loop()
-        # 1st - request sense box data, sensor id's  needed to query historical data
-        tasks = [loop.create_task(read_from_src(bid)) for bid in BOXES_CONFIG]
-        loop.run_until_complete(asyncio.wait(tasks))
-        # 2nd - retrieve historical sensor data, and write to raw history
-        result = []
-        t_hist = []
-        for t1 in tasks:
-            b = t1.result()
-            result.append(b)
-            t_hist.extend(iter([loop.create_task(read_hist_from_src(b["key"], s)) for s in get_sensors_id(b["value"])]))
-        loop.run_until_complete(asyncio.wait(t_hist))
-        hist = [t.result() for t in t_hist]
-        write_to_raw_hist(hist)
-        # 3rd - use the requested sense box data to write to raw
-        write_to_raw(result)
-        time.sleep(READ_INTERVAL)
-        # 4th - enter the loop for further sense box data write to raw
         while True:
-            tasks = [loop.create_task(read_from_src(bid)) for bid in BOXES_CONFIG]
+            tasks = []
+            for b in BOXES_CONFIG:
+                sensors = b["sensors"]
+                tasks.extend(iter([loop.create_task(read_hist_from_src(b["_id"], s["_id"])) for s in sensors]))
             loop.run_until_complete(asyncio.wait(tasks))
             result = [t.result() for t in tasks]
             write_to_raw(result)
