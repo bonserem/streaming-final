@@ -25,7 +25,7 @@ BOXES_CONFIG = [
     {
         "name": "Leonhardsgraben",
         "_id": "5d76badc953683001aa283ef",
-        "coordinates": [7.854577, 47.993157],
+        "coordinates": [7.585112, 47.555994],
         "sensors": [{"_id": "5d76badc953683001aa283f5", "title": "PM10", "unit": "\u00b5g/m\u00b3"}]
     }]
 
