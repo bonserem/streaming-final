@@ -4,11 +4,13 @@ Scripts to configure Kafka or the environment
 # Create initial topics
 Here are the command to create the topics. For now we have three topics
 * raw
+ Buffered arrays of measurements.
 * clean-latest
-  this is a compacted containing our own data format. Goals is the latest value per sensor type per box
-* clean-all
+  this is a compacted topic containing our own data format. Goals is the latest value per sensor type per box.
+  One array per sensor containing the last hour of measurements(mininum 15 instances)
+* DEPRECATED clean-all
   contains a time series per box per sensor type
-* raw-history
+* DEPRECATED raw-history
   since the opensensemap history is in a different format here the raw history data is kept. A separate pipeline converts the history and saves it in the correct topics
 
 here are the commands for creating them:
@@ -28,14 +30,6 @@ kafka-topics --zookeeper zookeeper-1:2181 --if-not-exists --create --topic raw -
 ### clean latest topic
 ```
 kafka-topics --zookeeper zookeeper-1:2181 --if-not-exists --create --topic clean-latest --replication-factor 3 --partitions 6 --config cleanup.policy=compact 
-```
-### clean all topic
-```
-kafka-topics --zookeeper zookeeper-1:2181 --if-not-exists --create --topic clean-all --replication-factor 3 --partitions 6
-```
-### raw history topic
-```
-kafka-topics --zookeeper zookeeper-1:2181 --if-not-exists --create --topic raw-history --replication-factor 3 --partitions 6
 ```
 
 # Check
