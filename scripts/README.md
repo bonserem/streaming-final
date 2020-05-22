@@ -20,7 +20,7 @@ first connect to one of the brokers
 contains the latest PM10 measurement per box
 
 ```
-Docker exec -ti kafka-1 bash
+docker exec -ti kafka-1 bash
 ```
 then create and configure the topics
 ### raw topic:
